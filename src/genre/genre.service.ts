@@ -7,7 +7,7 @@ import { Genre } from "./entities/genre-entity";
     genre: Genre[] = []
 
   findAll() {
-    return 'Buscar todos os generos';
+    return this.genre;
   }
   create(createGenreDto: CreateGenreDto) {
     const genre: Genre = { id:'id_random', ...createGenreDto}
