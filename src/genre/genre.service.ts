@@ -30,4 +30,8 @@ import { Genre } from "./entities/genre-entity";
       data,
     })
   }
+
+  async delete(id: string){
+    await this.prisma.genre.delete({where:{id}});
+  }
 }
