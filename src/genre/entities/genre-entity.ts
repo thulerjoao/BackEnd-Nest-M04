@@ -1,4 +1,4 @@
-export class Genre{
-  id?:string;
-  genre:string;
+export class Genre {
+  id?: string;
+  genre: string;
 }
