@@ -5,13 +5,18 @@ import { Game } from "./entities/game-entity";
 
 @Injectable()
 export class GameService{
-  
+
   constructor (private readonly prisma: PrismaService){}
 
-  findAll() {
+  findAll(): Promise<Game[]> {
     return this.prisma.game.findMany();
   }
-  create(dto: CreateGameDto) {
+
+  findOne(id:string): Promise <Game>{
+    return this.prisma.game.findUnique({where:{ id }});
+  }
+
+  create(dto: CreateGameDto): Promise<Game> {
     const data: Game = {...dto}
     return this.prisma.game.create({data});
   }
