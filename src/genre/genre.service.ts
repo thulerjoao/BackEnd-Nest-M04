@@ -1,14 +1,14 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaModule } from "src/prisma/prisma.module";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CreateGenreDto } from "./dto/create-genre.dto";
+import { UpdateGenreDto } from "./dto/update-genre.dto";
 import { Genre } from "./entities/genre-entity";
 
 
 @Injectable()
   export class GenreService{
 
-    constructor (private readonly prisma: PrismaService){}
+  constructor (private readonly prisma: PrismaService){}
 
   findAll(): Promise<Genre[]> {
     return this.prisma.genre.findMany();
@@ -21,5 +21,13 @@ import { Genre } from "./entities/genre-entity";
   create(dto: CreateGenreDto): Promise <Genre> {
     const data: Genre = {...dto}
     return this.prisma.genre.create({data});
-}
+  }
+
+  update(id: string, dto: UpdateGenreDto): Promise<Genre> {
+    const data: Partial<Genre> = {...dto}
+    return this.prisma.genre.update({
+      where:{id},
+      data,
+    })
+  }
 }
