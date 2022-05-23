@@ -11,15 +11,15 @@ datasource db {
 }
 
 model Game {
-  id String @id @default(uuid())
-  name String @unique
+  id        String   @id @default(uuid())
+  name      String   @unique
   createdAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  updateAt  DateTime @updatedAt
 }
 
 model Genre {
-  id String @id @default(uuid())
-  genre String @unique
+  id        String   @id @default(uuid())
+  genre     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

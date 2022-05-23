@@ -1,4 +1,4 @@
-export class Game{
-  id?:string;
-  name:string
+export class Game {
+  id?: string;
+  name: string;
 }
