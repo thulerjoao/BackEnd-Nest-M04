@@ -6,16 +6,15 @@ import { GenreService } from "./genre.service";
 @ApiTags('genre')
 @Controller('genre')
 export class GenreController {
-  constructor(private GenreService: GenreService){}
+  constructor(private readonly GenreService: GenreService){}
 
   @Get()
   findAll(){
     return this.GenreService.findAll();
-
   }
 
   @Post()
-  create(@Body() createGenreDto: CreateGenreDto){
-    return this.GenreService.create(createGenreDto);
+  create(@Body() dto: CreateGenreDto){
+    return this.GenreService.create(dto);
   }
 }

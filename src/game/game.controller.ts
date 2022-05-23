@@ -6,7 +6,7 @@ import { GameService } from "./game.service";
 @ApiTags('game')
 @Controller('game')
 export class GameController{
-  constructor(private GameService: GameService) {}
+  constructor(private readonly GameService: GameService) {}
 
   @Get()
   findAll(){
@@ -15,8 +15,8 @@ export class GameController{
   }
 
   @Post()
-  create(@Body() createGameDto: CreateGameDto){
-    return this.GameService.create(createGameDto);
+  create(@Body() dto: CreateGameDto){
+    return this.GameService.create(dto);
 
   }
 
