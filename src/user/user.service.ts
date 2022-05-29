@@ -12,14 +12,23 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
+  private userService = {
+    id: true,
+    name: true,
+    email: true,
+    password: false,
+    photo: true,
+    createdAt: true,
+    updatedAt: true
+  };
   constructor(private readonly prisma: PrismaService) {}
 
   findAll(): Promise<User[]> {
-    return this.prisma.user.findMany();
+    return this.prisma.user.findMany({select: this.userService});
   }
 
   async findById(id: string): Promise<User> {
-    const record = await this.prisma.user.findUnique({ where: { id } });
+    const record = await this.prisma.user.findUnique({ where: { id }, select: this.userService});
     if (!record) {
       throw new NotFoundException(
         `Nenhum registro com o ID '${id}' foi encontrado`,
@@ -40,7 +49,7 @@ export class UserService {
     const data: User = { ...dto,
       password: await bcrypt.hash(dto.password, 10)
      };
-    return this.prisma.user.create({ data }).catch(this.handleError);
+    return this.prisma.user.create({ data, select: this.userService }).catch(this.handleError);
   }
 
   async update(id: string, dto: UpdateUserDto): Promise<User> {
@@ -59,13 +68,14 @@ export class UserService {
       .update({
         where: { id },
         data,
+        select: this.userService
       })
       .catch(this.handleError);
   }
 
   async delete(id: string) {
     await this.findById(id);
-    await this.prisma.user.delete({ where: { id } });
+    await this.prisma.user.delete({where: { id }});
   }
 
   handleError(error: Error): undefined {
