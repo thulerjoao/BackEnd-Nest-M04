@@ -13,6 +13,7 @@ async function bootstrap() {
     .setDescription('Aplicação para loja de jogos')
     .setVersion('1.0.0')
     .addTag('status')
+    .addTag('user')
     .addTag('game')
     .addTag('genre')
     .build();

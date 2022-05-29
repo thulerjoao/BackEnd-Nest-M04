@@ -1,0 +1,4 @@
+Schema com relacionamento de todas as entidades (2 pontos);
+Finalização dos endpoints das outras entidades (total de 5 pontos):
+[Create] Usuários (não precisa de autenticação) (0,5 pontos);
+Relacionar jogos com gêneros (0,5 pontos).
