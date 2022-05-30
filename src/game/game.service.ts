@@ -1,9 +1,9 @@
 import {
   Injectable,
-  NotFoundException,
-  UnprocessableEntityException,
+  NotFoundException
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { handleError } from 'src/utils/handle-error.util';
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
 import { Game } from './entities/game-entity';
@@ -32,7 +32,7 @@ export class GameService {
 
   create(dto: CreateGameDto): Promise<Game> {
     const data: Game = { ...dto };
-    return this.prisma.game.create({ data }).catch(this.handleError);
+    return this.prisma.game.create({ data }).catch(handleError);
   }
 
   async update(id: string, dto: UpdateGameDto): Promise<Game> {
@@ -43,19 +43,11 @@ export class GameService {
         where: { id },
         data,
       })
-      .catch(this.handleError);
+      .catch(handleError);
   }
 
   async delete(id: string) {
     await this.findById(id);
     await this.prisma.game.delete({ where: { id } });
-  }
-
-  handleError(error: Error): undefined {
-    const errorLines = error.message?.split('\n');
-    const lastLineError = errorLines[errorLines.length - 1]?.trim();
-    throw new UnprocessableEntityException(
-      lastLineError || 'Erro ao tentar executar',
-    );
   }
 }

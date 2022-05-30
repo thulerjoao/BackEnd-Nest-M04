@@ -22,6 +22,9 @@ model Game {
   createdAt DateTime @default(now()) @map("created_at")
   updateAt  DateTime @updatedAt @map("updated_at")
 
+  profiles Profile[]
+  genres Genre[]
+
   @@map("game")
 }
 
@@ -31,6 +34,8 @@ model Genre {
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  games Game[]
 
   @@map("genre")
 }
@@ -45,5 +50,25 @@ model User{
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  profiles Profile[]
+
   @@map("user")
+}
+
+model Profile{
+  id        String   @id @default(uuid())
+
+  name      String
+  photo     String
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
+
+  games Game[]
+
+  @@map("profile")
+
 }
