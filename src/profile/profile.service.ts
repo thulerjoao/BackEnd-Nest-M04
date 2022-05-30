@@ -1,28 +1,104 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Profile } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { handleError } from 'src/utils/handle-error.util';
+import { domainToASCII } from 'url';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class ProfileService {
-  
-  create(createProfileDto: CreateProfileDto) {
-    return 'This action adds a new profile';
+  constructor(private readonly prisma:PrismaService){}
+
+ async create(dto: CreateProfileDto): Promise<Profile> {
+    if(dto.gameId) {
+      return await this.prisma.profile.create({
+        data: {
+        name: dto.name,
+        photo: dto.photo,
+        userId: dto.userId,
+        games:{
+          connect:{
+            id:dto.gameId,
+          },
+        },
+      },
+      include:{
+        games:true,
+        user:true
+      }}).catch(handleError)
+    }else{
+      return await this.prisma.profile.create({
+        data:{
+          name:dto.name,
+          photo:dto.photo,
+          userId:dto.userId
+        },
+        include:{games:true},
+      }).catch(handleError);
+    }
   }
 
-  findAll() {
-    return `This action returns all profile`;
+  findAll(): Promise <Profile[]> {
+    return this.prisma.profile.findMany({
+      include:{
+        user: true,
+        games: true,
+      },
+    });
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} profile`;
+  async findById(id: string): Promise<Profile> {
+    const record = await this.prisma.profile.findUnique({
+      where:{
+        id: id,
+      },
+      include: {games: true}
+    });
+    if(!record){
+      throw new NotFoundException(`Profile com id ${id} não encontrado` )
+    }
+    return record;
   }
 
-  update(id: string, updateProfileDto: UpdateProfileDto) {
-    return `This action updates a #${id} profile`;
+  async findOne(id: string): Promise<Profile> {
+  return this.findById(id);
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} profile`;
+  async update(id: string, dto: UpdateProfileDto) {
+    await this.findById(id);
+    if(dto.gameId){
+      return this.prisma.profile.update({
+        where:{id},
+        data: {
+          name: dto.name,
+          photo:dto.photo,
+          userId:dto.userId,
+          games:{
+            connect:{
+              id:dto.gameId,
+            },
+          },
+        },
+        include: {games:true}
+      })
+    }else{
+      return this.prisma.profile
+        .update({
+          where: { id },
+          data: {
+            name: dto.name,
+            photo: dto.photo,
+            userId: dto.userId,
+          },
+          include: { games: true },
+        })
+        .catch(handleError);
+    }
+  }
+
+  async delete(id: string) {
+    await this.findById(id);
+    await this.prisma.profile.delete({ where: { id } });
   }
 }
