@@ -29,15 +29,21 @@ export class CreateUserDto {
   password: string;
 
   @ApiProperty({
-    description: 'confirmação de senha',
+    description: 'Confirmação da senha',
     example: 'Abcd@1234'
   })
   confirmPassword: string;
 
-  @IsUrl()
+  @IsString()
   @ApiProperty({
-    description: 'Foto do usuário',
-    example: 'https://cdn-icons-png.flaticon.com/512/17/17004.png',
+    description: 'CPF do usuário',
+    example: '12345678912'
   })
-  photo: string;
+  cpf: string;
+
+  @ApiProperty({
+    description: 'Permissoes de usuário',
+    example: false,
+  })
+  isAdmin: boolean;
 }

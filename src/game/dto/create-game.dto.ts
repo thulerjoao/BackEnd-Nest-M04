@@ -43,5 +43,12 @@ export class CreateGameDto {
     example: 59.90,
   })
   price: number;
+
+  @IsString()
+  @ApiProperty({
+    description: 'Gênero do jogo',
+    example: 'FPS',
+  })
+  genreName: string;
 }
 

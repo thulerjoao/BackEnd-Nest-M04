@@ -4,6 +4,7 @@ import {
   NotFoundException
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { cpf } from 'cpf-cnpj-validator';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { handleError } from 'src/utils/handle-error.util';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,10 +18,12 @@ export class UserService {
     name: true,
     email: true,
     password: false,
-    photo: true,
+    cpf:false,
+    isAdmin:false,
     createdAt: true,
     updatedAt: true
   };
+
   constructor(private readonly prisma: PrismaService) {}
 
   findAll(): Promise<User[]> {
@@ -42,14 +45,21 @@ export class UserService {
   }
 
   async create(dto: CreateUserDto): Promise<User> {
-    if(dto.password != dto.confirmPassword){
-      throw new BadRequestException('As senhas devem ser iguais')
+    if(!cpf.isValid(dto.cpf)){
+      throw new BadRequestException('CPF inválido')
+    }
+    if (dto.password != dto.confirmPassword) {
+      throw new BadRequestException('As senhas informadas são diferentes');
     }
     delete dto.confirmPassword;
-    const data: User = { ...dto,
-      password: await bcrypt.hash(dto.password, 10)
-     };
-    return this.prisma.user.create({ data, select: this.userService }).catch(handleError);
+
+    const user: User = {
+      ...dto,
+      password: await bcrypt.hash(dto.password, 10),
+      cpf: cpf.format(dto.cpf)
+    };
+
+    return this.prisma.user.create({ data:user , select: this.userService }).catch(handleError);
   }
 
   async update(id: string, dto: UpdateUserDto): Promise<User> {

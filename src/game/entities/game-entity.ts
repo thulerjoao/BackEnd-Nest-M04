@@ -8,4 +8,6 @@ export class Game {
   price:number
   createdAt?: Date
   updatedAt?: Date
+  genres?:any
+  genreName?: string;
 }

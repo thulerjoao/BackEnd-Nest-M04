@@ -3,7 +3,8 @@ export class User {
   name: string
   email: string
   password: string
-  photo: string
+  cpf: string
+  isAdmin: boolean
   createdAt?: Date
   updatedAt?: Date
 }
