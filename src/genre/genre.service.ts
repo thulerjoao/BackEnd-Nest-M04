@@ -16,34 +16,38 @@ export class GenreService {
     return this.prisma.genre.findMany();
   }
 
-  async findById(id: string): Promise<Genre> {
-    const record = await this.prisma.genre.findUnique({ where: { id } });
+  async findById(name:string): Promise<Genre>{
+    const record = await this.prisma.genre.findUnique({
+      where: {
+        name
+      },
+    });
     if (!record) {
       throw new NotFoundException(
-        `Nenhum registro com o ID '${id}' foi encontrado`,
+        `Nenhum registro com o ID '${name}' foi encontrado`,
       );
     }
     return record;
   }
 
-  async findOne(id: string): Promise<Genre> {
-    return this.findById(id);
+  async findOne(name: string): Promise<Genre> {
+    return this.findById(name);
   }
 
   create(dto: CreateGenreDto): Promise<Genre> {
-    const data: Genre = { ...dto };
-    return this.prisma.genre.create({ data }).catch(handleError);
-  }
+    const genre: Genre = { ...dto };
 
-  async update(id: string, dto: UpdateGenreDto): Promise<Genre> {
-    await this.findById(id);
-    const data: Partial<Genre> = { ...dto };
-    return this.prisma.genre
-      .update({
-        where: { id },
-        data,
-      })
-      .catch(handleError);
+    return this.prisma.genre.create({
+      data: genre,
+    }).catch(handleError);
+  }
+  async update(name: string, dto: UpdateGenreDto): Promise<Genre> {
+    await this.findById(name);
+    const data: Partial<Genre> = {...dto}
+    return this.prisma.genre.update({
+      where: {name},
+      data,
+    }).catch(handleError);
   }
 
   async delete(id: string) {

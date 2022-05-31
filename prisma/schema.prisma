@@ -11,13 +11,14 @@ datasource db {
 }
 
 model Game {
-  id        String   @id @default(uuid())
-  name      String   @unique
-  image     String
-  description String
-  ageRating Int
-  score     Float
-  price     Float
+  id                 String @id @default(uuid())
+  title              String
+  coverImageUrl      String
+  description        String
+  year               Int
+  imdbScore          Int
+  trailerYoutubeUrl  String
+  gameplayYoutubeUrl String
 
   createdAt DateTime @default(now()) @map("created_at")
   updateAt  DateTime @updatedAt @map("updated_at")
@@ -30,7 +31,7 @@ model Game {
 
 model Genre {
   id        String   @id @default(uuid())
-  genre     String   @unique
+  name     String   @unique
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -57,10 +58,9 @@ model User{
 }
 
 model Profile{
-  id        String   @id @default(uuid())
-
-  name      String
-  photo     String
+  id   String @id @default(uuid())
+  title String
+  imageUrl String
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

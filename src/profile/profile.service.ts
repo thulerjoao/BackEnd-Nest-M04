@@ -10,32 +10,34 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 export class ProfileService {
   constructor(private readonly prisma:PrismaService){}
 
- async create(dto: CreateProfileDto): Promise<Profile> {
-    if(dto.gameId) {
-      return await this.prisma.profile.create({
-        data: {
-        name: dto.name,
-        photo: dto.photo,
-        userId: dto.userId,
-        games:{
-          connect:{
-            id:dto.gameId,
+  async create(dto: CreateProfileDto): Promise<Profile> {
+    if (dto.gameId) {
+      return await this.prisma.profile
+        .create({
+          data: {
+            title: dto.title,
+            imageUrl: dto.imageUrl,
+            userId: dto.userId,
+            games: {
+              connect: {
+                id: dto.gameId,
+              },
+            },
           },
-        },
-      },
-      include:{
-        games:true,
-        user:true
-      }}).catch(handleError)
-    }else{
-      return await this.prisma.profile.create({
-        data:{
-          name:dto.name,
-          photo:dto.photo,
-          userId:dto.userId
-        },
-        include:{games:true},
-      }).catch(handleError);
+          include: { games: true, user: true },
+        })
+        .catch(handleError);
+    } else {
+      return await this.prisma.profile
+        .create({
+          data: {
+            title: dto.title,
+            imageUrl: dto.imageUrl,
+            userId: dto.userId,
+          },
+          include: { games: true },
+        })
+        .catch(handleError);
     }
   }
 
@@ -67,28 +69,30 @@ export class ProfileService {
 
   async update(id: string, dto: UpdateProfileDto) {
     await this.findById(id);
-    if(dto.gameId){
-      return this.prisma.profile.update({
-        where:{id},
-        data: {
-          name: dto.name,
-          photo:dto.photo,
-          userId:dto.userId,
-          games:{
-            connect:{
-              id:dto.gameId,
-            },
-          },
-        },
-        include: {games:true}
-      })
-    }else{
+    if (dto.gameId) {
       return this.prisma.profile
         .update({
           where: { id },
           data: {
-            name: dto.name,
-            photo: dto.photo,
+            title: dto.title,
+            imageUrl: dto.imageUrl,
+            userId: dto.userId,
+            games: {
+              connect: {
+                id: dto.gameId,
+              },
+            },
+          },
+          include: { games: true },
+        })
+        .catch(handleError);
+    } else {
+      return this.prisma.profile
+        .update({
+          where: { id },
+          data: {
+            title: dto.title,
+            imageUrl: dto.imageUrl,
             userId: dto.userId,
           },
           include: { games: true },

@@ -4,8 +4,8 @@ import { IsString } from 'class-validator';
 export class CreateGenreDto {
   @IsString()
   @ApiProperty({
-    description: 'Genre of the game',
+    description: 'Genero do jogo',
     example: 'FPS',
   })
-  genre: string;
+  name: string;
 }

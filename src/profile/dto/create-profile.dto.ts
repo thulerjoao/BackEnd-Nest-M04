@@ -8,14 +8,14 @@ export class CreateProfileDto {
     description: 'Nome para o perfil',
     example: 'João Pedro',
   })
-  name: string;
+  title: string;
 
   @IsString()
   @ApiProperty({
     description: 'Imagem para o perfil',
     example: 'https://cdn-icons-png.flaticon.com/512/17/17004.png',
   })
-  photo: string;
+  imageUrl: string;
 
 
   @IsString()

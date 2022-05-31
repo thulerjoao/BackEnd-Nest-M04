@@ -38,51 +38,55 @@ export class GameService {
     return this.findById(id);
   }
 
-  async create(dto: CreateGameDto){
+  async create(createGameDto: CreateGameDto) {
     const data: Prisma.GameCreateInput = {
-      name:dto.name,
-      image:dto.image,
-      description:dto.description,
-      ageRating:dto.ageRating,
-      score:dto.score,
-      price:dto.price,
+      title: createGameDto.title,
+      description: createGameDto.description,
+      coverImageUrl: createGameDto.coverImageUrl,
+      year: createGameDto.year,
+      imdbScore: createGameDto.imdbScore,
+      trailerYoutubeUrl: createGameDto.trailerYoutubeUrl,
+      gameplayYoutubeUrl: createGameDto.gameplayYoutubeUrl,
       genres: {
         connect:{
-          genre: dto.genreName,
+          name: createGameDto.genreName,
         }
       }
-    };
+      }
     return await this.prisma.game.create({
       data, include:{
         genres: true
       }
     }).catch(handleError);
   }
-  async update(id: string, dto: UpdateGameDto){
+
+  async update(id: string, dto: UpdateGameDto) {
     const gameAtual = await this.findById(id);
-    const data: Partial<Game> = {
-      name:dto.name,
-      image:dto.image,
-      description:dto.description,
-      ageRating:dto.ageRating,
-      score:dto.score,
-      price:dto.price,
-      genres: {
-        disconnect:{
-          genre: gameAtual.genres[0].genre
-        },
-        connect:{
-          genre: dto.genreName,
-        }
-      }
-    };
-    return this.prisma.game
-      .update({
-        where: { id },
-        data,
-      })
-      .catch(handleError);
-  }
+     const data: Prisma.GameUpdateInput ={
+       title: dto.title,
+       description: dto.description,
+       coverImageUrl: dto.coverImageUrl,
+       year: dto.year,
+       imdbScore: dto.imdbScore,
+       trailerYoutubeUrl: dto.trailerYoutubeUrl,
+       gameplayYoutubeUrl: dto.gameplayYoutubeUrl,
+       genres: {
+         disconnect:{
+           name: gameAtual.genres[0].name
+         },
+         connect:{
+           name: dto.genreName,
+         }
+       }
+     }
+     return await this.prisma.game.update({
+       where: {id},
+       data,
+       include:{
+         genres:true
+       }
+     }).catch(handleError);
+   }
 
   async delete(id: string) {
     await this.findById(id);

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsPositive, IsString, IsUrl } from 'class-validator';
 
 export class CreateGameDto {
   @IsString()
@@ -7,14 +7,14 @@ export class CreateGameDto {
     description: 'Name of the game',
     example: 'cs go',
   })
-  name: string;
+  title: string;
 
- @IsString()
   @ApiProperty({
-    description: 'Image of the game',
-    example: 'http://image.com',
+    description: 'Link da imagem do jogo',
+    example: 'http://www.imagemdojogo.com.br',
   })
-  image: string;
+  @IsString()
+  coverImageUrl: string;
 
   @IsString()
   @ApiProperty({
@@ -23,26 +23,29 @@ export class CreateGameDto {
   })
   description: string;
 
+  @ApiProperty({ description: 'ano do jogo', example: 1996 })
   @IsNumber()
-  @ApiProperty({
-    description: 'Faixa Etária infidicada',
-    example: 16,
-  })
-  ageRating: number;
+  @IsPositive()
+  year: number;
 
+  @ApiProperty({ description: 'Score do jogo - 0 até 5 ',
+   example: 5})
   @IsNumber()
-  @ApiProperty({
-    description: 'Pontuação do jogo',
-    example: 5,
-  })
-  score: number;
+  @IsPositive()
+  imdbScore: number;
 
-  @IsNumber()
+  @IsUrl()
   @ApiProperty({
-    description: 'Valor do jogo',
-    example: 59.90,
+    description: 'Trailer do jogo',
+    example: 'http://www.youtube.com.br/trailer',
   })
-  price: number;
+  trailerYoutubeUrl: string;
+
+  @ApiProperty({
+    description: 'Gameplay do jogo',
+    example: 'http://www.youtube.com.br/gameplay',
+  })
+  gameplayYoutubeUrl: string;
 
   @IsString()
   @ApiProperty({
