@@ -8,7 +8,7 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class ProfileService {
-  constructor(private readonly prisma:PrismaService){}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(dto: CreateProfileDto): Promise<Profile> {
     if (dto.gameId) {
@@ -41,9 +41,9 @@ export class ProfileService {
     }
   }
 
-  findAll(): Promise <Profile[]> {
+  findAll(): Promise<Profile[]> {
     return this.prisma.profile.findMany({
-      include:{
+      include: {
         user: true,
         games: true,
       },
@@ -52,19 +52,19 @@ export class ProfileService {
 
   async findById(id: string): Promise<Profile> {
     const record = await this.prisma.profile.findUnique({
-      where:{
+      where: {
         id: id,
       },
-      include: {games: true}
+      include: { games: true },
     });
-    if(!record){
-      throw new NotFoundException(`Profile com id ${id} não encontrado` )
+    if (!record) {
+      throw new NotFoundException(`Profile com id ${id} não encontrado`);
     }
     return record;
   }
 
   async findOne(id: string): Promise<Profile> {
-  return this.findById(id);
+    return this.findById(id);
   }
 
   async update(id: string, dto: UpdateProfileDto) {

@@ -9,7 +9,7 @@ export class AppController {
 
   @Get()
   @ApiOperation({
-    summary:'Status da aplicação'
+    summary: 'Status da aplicação',
   })
   getAppStatus(): string {
     return this.appService.getAppStatus();

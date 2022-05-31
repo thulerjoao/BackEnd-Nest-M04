@@ -4,8 +4,8 @@ import { ProfileController } from './profile.controller';
 import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
-  imports:[PrismaModule],
+  imports: [PrismaModule],
   controllers: [ProfileController],
-  providers: [ProfileService]
+  providers: [ProfileService],
 })
 export class ProfileModule {}

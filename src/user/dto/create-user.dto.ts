@@ -1,8 +1,7 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsUrl, Matches, MinLength } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsUrl, Matches, MinLength } from 'class-validator';
 
 export class CreateUserDto {
-
   @IsString()
   @ApiProperty({
     description: 'Nome de usuário',
@@ -30,14 +29,14 @@ export class CreateUserDto {
 
   @ApiProperty({
     description: 'Confirmação da senha',
-    example: 'Abcd@1234'
+    example: 'Abcd@1234',
   })
   confirmPassword: string;
 
   @IsString()
   @ApiProperty({
     description: 'CPF do usuário',
-    example: '12345678912'
+    example: '12345678912',
   })
   cpf: string;
 

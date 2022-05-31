@@ -28,8 +28,7 @@ export class CreateGameDto {
   @IsPositive()
   year: number;
 
-  @ApiProperty({ description: 'Score do jogo - 0 até 5 ',
-   example: 5})
+  @ApiProperty({ description: 'Score do jogo - 0 até 5 ', example: 5 })
   @IsNumber()
   @IsPositive()
   imdbScore: number;
@@ -54,4 +53,3 @@ export class CreateGameDto {
   })
   genreName: string;
 }
-

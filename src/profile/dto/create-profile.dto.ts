@@ -1,6 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
-
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString } from 'class-validator';
 
 export class CreateProfileDto {
   @IsString()
@@ -16,7 +15,6 @@ export class CreateProfileDto {
     example: 'https://cdn-icons-png.flaticon.com/512/17/17004.png',
   })
   imageUrl: string;
-
 
   @IsString()
   @ApiProperty({

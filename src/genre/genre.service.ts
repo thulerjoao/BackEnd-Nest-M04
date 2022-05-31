@@ -1,7 +1,4 @@
-import {
-  Injectable,
-  NotFoundException
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { handleError } from 'src/utils/handle-error.util';
 import { CreateGenreDto } from './dto/create-genre.dto';
@@ -16,10 +13,10 @@ export class GenreService {
     return this.prisma.genre.findMany();
   }
 
-  async findById(name:string): Promise<Genre>{
+  async findById(name: string): Promise<Genre> {
     const record = await this.prisma.genre.findUnique({
       where: {
-        name
+        name,
       },
     });
     if (!record) {
@@ -37,17 +34,21 @@ export class GenreService {
   create(dto: CreateGenreDto): Promise<Genre> {
     const genre: Genre = { ...dto };
 
-    return this.prisma.genre.create({
-      data: genre,
-    }).catch(handleError);
+    return this.prisma.genre
+      .create({
+        data: genre,
+      })
+      .catch(handleError);
   }
   async update(name: string, dto: UpdateGenreDto): Promise<Genre> {
     await this.findById(name);
-    const data: Partial<Genre> = {...dto}
-    return this.prisma.genre.update({
-      where: {name},
-      data,
-    }).catch(handleError);
+    const data: Partial<Genre> = { ...dto };
+    return this.prisma.genre
+      .update({
+        where: { name },
+        data,
+      })
+      .catch(handleError);
   }
 
   async delete(id: string) {
