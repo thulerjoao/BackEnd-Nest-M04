@@ -4,7 +4,7 @@ import { IsNumber, IsPositive, IsString, IsUrl } from 'class-validator';
 export class CreateGameDto {
   @IsString()
   @ApiProperty({
-    description: 'Name of the game',
+    description: 'Nome do jogo',
     example: 'cs go',
   })
   title: string;

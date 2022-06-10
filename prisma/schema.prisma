@@ -25,13 +25,13 @@ model Game {
 
   profiles Profile[]
   genres   Genre[]
+  favoriteGames FavoriteGames[]
 
   @@map("game")
 }
 
 model Genre {
-  id   String @id @default(uuid())
-  name String @unique
+  name String @id @unique
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -62,14 +62,20 @@ model Profile {
   title    String
   imageUrl String
 
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
   user   User   @relation(fields: [userId], references: [id])
   userId String @map("user_id")
 
   games Game[]
-
+  favoriteGames FavoriteGames?
 
   @@map("profile")
+}
+
+model FavoriteGames{
+  id String @id @default(uuid())
+
+  profile Profile @relation(fields: [profileId], references: [id])
+  profileId String @map("profile_id") @unique
+
+  games Game[]
 }

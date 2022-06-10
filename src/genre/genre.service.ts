@@ -31,7 +31,7 @@ export class GenreService {
     return this.findById(name);
   }
 
-  create(dto: CreateGenreDto): Promise<Genre> {
+  async create(dto: CreateGenreDto): Promise<Genre> {
     const genre: Genre = { ...dto };
 
     return this.prisma.genre
