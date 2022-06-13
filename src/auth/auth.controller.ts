@@ -14,6 +14,6 @@ export class AuthController {
     summary: 'login de usuário através de token de auth'
   })
   Login (@Body() dto: LoginDto): Promise<LoginResponseDto>{
-    return this.authService.login(LoginDto);
+    return this.authService.login(dto);
   }
 }

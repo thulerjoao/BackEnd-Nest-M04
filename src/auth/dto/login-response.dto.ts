@@ -10,5 +10,6 @@ export class LoginResponseDto{
   description:'Dados do usuário autenticado',
 })
   token:string
+  
   user: User
 }
