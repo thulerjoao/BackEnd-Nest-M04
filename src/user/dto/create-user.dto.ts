@@ -36,7 +36,7 @@ export class CreateUserDto {
   @IsString()
   @ApiProperty({
     description: 'CPF do usuário',
-    example: '12345678912',
+    example: '15019718750',
   })
   cpf: string;
 
