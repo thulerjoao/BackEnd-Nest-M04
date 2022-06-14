@@ -15,6 +15,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { User } from './entities/user.entity';
+import { LoggedUser } from 'src/auth/logged-user.decorator';
 
 @ApiTags('user')
 @Controller('user')
@@ -35,8 +37,8 @@ export class UserController {
   @ApiOperation({
     summary: 'Listar todos os usuários',
   })
-  findAll() {
-    return this.userService.findAll();
+  findAll(@LoggedUser() user: User) {
+    return this.userService.findAll(user);
   }
 
   @Get(':id')
