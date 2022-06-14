@@ -4,7 +4,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { handleError } from 'src/utils/handle-error.util';
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
-import { Game } from './entities/game-entity';
 
 @Injectable()
 export class GameService {
@@ -18,7 +17,7 @@ export class GameService {
     });
   }
 
-  async findById(id: string): Promise<Game> {
+  async findById(id: string) {
     const record = await this.prisma.game.findUnique({
       where: { id: id },
       include: {

@@ -16,16 +16,15 @@ export class CreateProfileDto {
   })
   imageUrl: string;
 
-  @IsString()
-  @ApiProperty({
-    description: 'Id de usuário',
-    example: '64783-das4-312-da1d3dqd-d2d12',
-  })
-  userId: string;
-
   @ApiProperty({
     description: 'Id do jogo - opcional',
     example: '64783-das4-312-da1d3dqd-d2d12',
   })
   gameId?: string;
+
+  @ApiProperty({
+    description: 'Id do jogo para adicionar aos favoritos - opcional',
+    example: '64783-das4-312-da1d3dqd-d2d12',
+  })
+  favoriteGameId?: string;
 }

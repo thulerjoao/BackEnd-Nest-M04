@@ -8,5 +8,4 @@ export class Game {
   trailerYoutubeUrl: string;
   gameplayYoutubeUrl: string;
   genreName?: string;
-  genres: any;
 }

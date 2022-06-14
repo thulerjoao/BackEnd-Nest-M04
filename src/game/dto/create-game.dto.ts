@@ -23,7 +23,7 @@ export class CreateGameDto {
   })
   description: string;
 
-  @ApiProperty({ description: 'ano do jogo', example: 1996 })
+  @ApiProperty({ description: 'ano do jogo', example: 1993 })
   @IsNumber()
   @IsPositive()
   year: number;
