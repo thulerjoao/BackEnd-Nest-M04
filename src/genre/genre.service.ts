@@ -51,8 +51,8 @@ export class GenreService {
       .catch(handleError);
   }
 
-  async delete(id: string) {
-    await this.findById(id);
-    await this.prisma.genre.delete({ where: { id } });
+  async delete(name: string) {
+    await this.findById(name);
+    await this.prisma.genre.delete({ where: { name } });
   }
 }
