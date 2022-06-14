@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { cpf } from 'cpf-cnpj-validator';
@@ -26,8 +27,14 @@ export class UserService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll(): Promise<User[]> {
+  findAll(user:User): Promise<User[]> {
+    if(user.isAdmin){
     return this.prisma.user.findMany({ select: this.userService });
+    }else{
+      throw new UnauthorizedException(
+        'Acesso restrito a perfil de Adm',
+      );
+    }
   }
 
   async findById(id: string): Promise<User> {

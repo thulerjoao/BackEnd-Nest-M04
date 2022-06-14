@@ -1,6 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { User } from 'src/user/entities/user.entity';
 import { handleError } from 'src/utils/handle-error.util';
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
@@ -36,7 +37,8 @@ export class GameService {
     return this.findById(id);
   }
 
-  async create(createGameDto: CreateGameDto) {
+  async create(createGameDto: CreateGameDto, user:User) {
+    if (user.isAdmin) {
     const data: Prisma.GameCreateInput = {
       title: createGameDto.title,
       description: createGameDto.description,
@@ -59,9 +61,16 @@ export class GameService {
         },
       })
       .catch(handleError);
+    }else{
+      throw new UnauthorizedException(
+        'Acesso restrito a perfil de Adm',
+      );
+    }
+
   }
 
-  async update(id: string, dto: UpdateGameDto) {
+  async update(id: string, dto: UpdateGameDto, user: User) {
+    if(user.isAdmin){
     const gameAtual = await this.findById(id);
     const data: Prisma.GameUpdateInput = {
       title: dto.title,
@@ -89,10 +98,22 @@ export class GameService {
         },
       })
       .catch(handleError);
+    }else{
+      throw new UnauthorizedException(
+        'Acesso restrito a perfil de Adm',
+      );
+    }
   }
 
-  async delete(id: string) {
+
+  async delete(id: string, user: User) {
+    if(user.isAdmin){
     await this.findById(id);
     await this.prisma.game.delete({ where: { id } });
+    }else{
+      throw new UnauthorizedException(
+        'Acesso restrito a perfil de Adm',
+      );
+    }
   }
 }
