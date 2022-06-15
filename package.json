@@ -41,7 +41,8 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "ts-node": "^10.0.0",
-    "swagger-ui-express": "^4.4.0"
+    "swagger-ui-express": "^4.4.0",
+    "node": "17.x"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
@@ -85,9 +86,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "engines": {
-    "node": "<=16.x",
-    "npm": "<=6.x.x"
   }
 }
