@@ -7,7 +7,7 @@ export class LoginResponseDto{
     example:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVtYWlsX3VzdWFyaW9AZ21haWwuY29tIiwiaWF0IjoxNjU1MTQ3MjQwLCJleHAiOjE2NTUzMjAwNDB9.fcumn8LqlaIIlmr-mxZY885C5oUN8OqM2P9LJ1pbfGU'
 })
 @ApiProperty({
-  description:'Dados do usuário autenticado',
+  description:'Dados de usuário autenticado',
 })
   token:string
 
